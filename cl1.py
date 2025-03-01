@@ -1,3 +1,4 @@
+import os
 import socket
 import pyaudio
 
@@ -24,5 +25,50 @@ def start_client():
     p.terminate()
     client_socket.close()
 
+commands = [
+    "help",
+    "connect",
+    "disconnect",
+    "channel",
+    "list",
+]
+data = {
+    "conn":"",
+    "id":"",
+    "role":"",
+    "channel":0,
+}
+
+def main():
+    while True:
+        inp = input("> ")
+        command,args = '',''
+        try: command,args = inp.split(" ")[0],inp.split(" ")[1:]
+        except: command = inp
+        finally: print(inp,"|",command,"|",args)
+        
+        if not command in commands:
+            print("<Error> Command Not Found Or Not Registered !")
+        
+        if command == "help":
+            print("write help <command> to see the command help")
+            for x in commands:
+                print(f"    {x.upper()}")
+        elif command == 'clear': os.system('cls')
+        elif command == 'cls': os.system('cls')
+        elif command == 'connect':
+            if not len(args): print("use connect <server> <port>")
+            elif len(args) < 2: print("use connect <server> <port> | fill options")
+            else: 
+                data['conn'] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                data['conn'].connect(('localhost',5000))
+
+        elif command == 'ulist':
+            if not data['conn']: print("no connection found")
+            else:
+
+                
+
 if __name__ == "__main__":
-    start_client()
+    # start_client()
+    main()

@@ -19,7 +19,7 @@ stream.close()
 audio.terminate()
 
 
-fs = wave.open("recording_001.wav","wb")
+fs = wave.open("recording_002.wav","wb")
 fs.setnchannels(1)
 fs.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
 fs.setframerate(44100)
