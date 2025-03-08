@@ -46,3 +46,29 @@
 #     speak("hello, how are you?")
 # elif "what is your name" in text:
 #     speak("My name is Tim")
+
+
+import socket
+
+def scan_network(port):
+    active_servers = []
+    base_ip = "192.168"  # Adjust based on your network
+    for x in range(1,255):
+        for i in range(1, 255):  # Scan all IPs in the range
+            ip = f"{base_ip}.{x}.{i}"
+            try:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(0.001)  # Reduce timeout for faster scanning
+                result = sock.connect_ex((ip, port))
+                print(ip,port,result)
+                if result == 0:
+                    active_servers.append(ip)
+                sock.close()
+            except Exception as e:
+                print(f"Error scanning {ip}: {e}")
+    return active_servers
+
+# Example usage
+port = 58410  # Port your server is running on
+servers = scan_network(port)
+# print("Active servers:", servers)
